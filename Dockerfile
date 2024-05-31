@@ -2,15 +2,10 @@ ARG UBUNTU_VER="22.04"
 
 FROM ubuntu:${UBUNTU_VER}
 
-# ARG FONT_DIR="/usr/share/fonts/truetype/meslo"
+ENV TERM=xterm-256color
 
 # common tools
 RUN apt update && apt install -y curl git zsh ca-certificates
-
-# copy fonts
-# RUN mkdir -p ${FONT_DIR} && apt install fontconfig 
-# COPY ./fonts ${FONT_DIR}
-# RUN fc-cache -fv
 
 # install zsh
 RUN touch /root/.zshrc && \
@@ -19,5 +14,7 @@ RUN touch /root/.zshrc && \
     git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git /root/.zsh/zsh-syntax-highlighting && \
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /root/.oh-my-zsh/custom/themes/powerlevel10k && \
     chsh -s $(which zsh)
+
+COPY .zshrc /root/.zshrc
 
 ENTRYPOINT [ "/bin/zsh" ]
