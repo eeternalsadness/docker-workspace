@@ -15,6 +15,7 @@ RUN touch /root/.zshrc && \
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /root/.oh-my-zsh/custom/themes/powerlevel10k && \
     chsh -s $(which zsh)
 
-COPY .zshrc /root/.zshrc
+# copy configs
+COPY .zshrc .p10k.zsh /root/
 
 ENTRYPOINT [ "/bin/zsh" ]
