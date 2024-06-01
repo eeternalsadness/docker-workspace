@@ -9,13 +9,10 @@ RUN apt update && apt install -y git zsh ca-certificates unzip curl tmux
 ENV TERM=xterm-256color
 RUN touch /root/.zshrc && \
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && \
-    git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions /root/.zsh/zsh-autosuggestions && \
-    git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git /root/.zsh/zsh-syntax-highlighting && \
+    git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions /root/.oh-my-zsh/plugins/zsh-autosuggestions && \
+    git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git /root/.oh-my-zsh/plugins/zsh-syntax-highlighting && \
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /root/.oh-my-zsh/custom/themes/powerlevel10k && \
     chsh -s $(which zsh)
-
-# copy zsh configs
-COPY .zshrc .p10k.zsh /root/
 
 # neovim
 RUN apt install -y ninja-build gettext cmake && \
@@ -24,9 +21,6 @@ RUN apt install -y ninja-build gettext cmake && \
     cd .. && rm -rf neovim && \
     git clone --depth=1 https://github.com/LazyVim/starter ~/.config/nvim && \
     rm -rf ~/.config/nvim/.git
-
-# copy neovim configs
-COPY ./nvim /root/.config/nvim
 
 # aws cli
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
@@ -37,5 +31,15 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 ARG TF_VERSION=1.8.1
 RUN curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/master/install.sh | bash && \
     tfswitch ${TF_VERSION}
+
+# docker
+
+
+# copy zsh & tmux configs
+ENV LANG=en_US.UTF-8
+COPY .zshrc .p10k.zsh .tmux.conf /root/
+
+# copy neovim configs
+COPY ./nvim /root/.config/nvim
 
 ENTRYPOINT [ "/bin/zsh" ]
