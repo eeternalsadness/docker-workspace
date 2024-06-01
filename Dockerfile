@@ -3,7 +3,7 @@ ARG UBUNTU_VER="22.04"
 FROM ubuntu:${UBUNTU_VER}
 
 # common tools
-RUN apt update && apt install -y git zsh ca-certificates unzip curl 
+RUN apt update && apt install -y git zsh ca-certificates unzip curl tmux
 
 # install zsh
 ENV TERM=xterm-256color
@@ -34,6 +34,8 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
     ./aws/install
 
 # tfswitch
-RUN curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/master/install.sh | bash
+ARG TF_VERSION=1.8.1
+RUN curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/master/install.sh | bash && \
+    tfswitch ${TF_VERSION}
 
 ENTRYPOINT [ "/bin/zsh" ]
