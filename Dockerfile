@@ -3,7 +3,7 @@ ARG UBUNTU_VER="22.04"
 FROM ubuntu:${UBUNTU_VER}
 
 # common tools
-RUN apt update && apt install -y git zsh ca-certificates ninja-build gettext cmake unzip curl build-essential
+RUN apt update && apt install -y git zsh ca-certificates unzip curl 
 
 # install zsh
 ENV TERM=xterm-256color
@@ -18,7 +18,8 @@ RUN touch /root/.zshrc && \
 COPY .zshrc .p10k.zsh /root/
 
 # neovim
-RUN git clone --depth=1 https://github.com/neovim/neovim --branch v0.9.5 && \
+RUN apt install -y ninja-build gettext cmake && \
+    git clone --depth=1 https://github.com/neovim/neovim --branch v0.9.5 && \
     cd neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo && make install && \
     cd .. && rm -rf neovim && \
     git clone --depth=1 https://github.com/LazyVim/starter ~/.config/nvim && \
@@ -27,5 +28,12 @@ RUN git clone --depth=1 https://github.com/neovim/neovim --branch v0.9.5 && \
 # copy neovim configs
 COPY ./nvim /root/.config/nvim
 
-# 
+# aws cli
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+    unzip awscliv2.zip && \
+    ./aws/install
+
+# tfswitch
+RUN curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/master/install.sh | bash
+
 ENTRYPOINT [ "/bin/zsh" ]
