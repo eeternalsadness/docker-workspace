@@ -27,19 +27,19 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
     unzip awscliv2.zip && \
     ./aws/install
 
+# docker
+
+# time zone
+
 # tfswitch
 ARG TF_VERSION=1.8.1
 RUN curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/master/install.sh | bash && \
     tfswitch ${TF_VERSION}
 
-# docker
+# ENVs
+ENV LANG=en_US.UTF-8 TZ=Asia/Ho_Chi_Minh
 
-
-# copy zsh & tmux configs
-ENV LANG=en_US.UTF-8
-COPY .zshrc .p10k.zsh .tmux.conf /root/
-
-# copy neovim configs
-COPY ./nvim /root/.config/nvim
+# copy dotfiles
+COPY ./dotfiles /root/
 
 ENTRYPOINT [ "/bin/zsh" ]
