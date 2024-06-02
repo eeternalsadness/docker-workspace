@@ -30,6 +30,13 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 # docker
 
 # time zone
+ARG TZ_AREA=Asia
+ARG TZ_ZONE=Bangkok
+RUN echo "tzdata tzdata/Areas select Asia" > /tmp/preseed.conf && \
+    echo "tzdata tzdata/Zones/Asia select Bangkok" >> /tmp/preseed.conf && \
+    debconf-set-selections /tmp/preseed.cfg && \
+    DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends tzdata && \
+    rm /tmp/preseed.conf
 
 # tfswitch
 ARG TF_VERSION=1.8.1
