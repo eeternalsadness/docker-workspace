@@ -32,8 +32,8 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 # time zone
 ARG TZ_AREA=Asia
 ARG TZ_ZONE=Bangkok
-RUN echo "tzdata tzdata/Areas select Asia" > /tmp/preseed.conf && \
-    echo "tzdata tzdata/Zones/Asia select Bangkok" >> /tmp/preseed.conf && \
+RUN echo "tzdata tzdata/Areas select ${TZ_AREA}}" > /tmp/preseed.conf && \
+    echo "tzdata tzdata/Zones/Asia select ${TZ_ZONE}}" >> /tmp/preseed.conf && \
     debconf-set-selections /tmp/preseed.cfg && \
     DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends tzdata && \
     rm /tmp/preseed.conf
@@ -44,7 +44,7 @@ RUN curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/mast
     tfswitch ${TF_VERSION}
 
 # ENVs
-ENV LANG=en_US.UTF-8 TZ=Asia/Ho_Chi_Minh
+ENV LANG=en_US.UTF-8 TZ=${TZ_AREA}/${TZ_ZONE}
 
 # copy dotfiles
 COPY ./dotfiles /root/
