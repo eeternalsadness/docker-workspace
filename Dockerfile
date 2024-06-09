@@ -12,6 +12,7 @@ RUN touch /root/.zshrc && \
     git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions /root/.oh-my-zsh/plugins/zsh-autosuggestions && \
     git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git /root/.oh-my-zsh/plugins/zsh-syntax-highlighting && \
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /root/.oh-my-zsh/custom/themes/powerlevel10k && \
+    /root/.oh-my-zsh/custom/themes/powerlevel10k/gitstatus/install && \
     chsh -s $(which zsh)
 
 # neovim
@@ -43,6 +44,9 @@ RUN echo "tzdata tzdata/Areas select ${TZ_AREA}}" > /tmp/preseed.conf && \
 ARG TF_VERSION=1.8.1
 RUN curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/master/install.sh | bash && \
     tfswitch ${TF_VERSION}
+
+# thefuck
+RUN apt install -y thefuck
 
 # ENVs
 ENV LANG=en_US.UTF-8 TZ=${TZ_AREA}/${TZ_ZONE}
