@@ -3,7 +3,7 @@ ARG UBUNTU_VER="22.04"
 FROM ubuntu:${UBUNTU_VER}
 
 # common tools
-RUN apt update && apt install -y git zsh ca-certificates unzip curl tmux
+RUN apt-get update && apt-get install -y git zsh ca-certificates unzip curl tmux
 
 # install zsh
 ENV TERM=xterm-256color
@@ -16,7 +16,7 @@ RUN touch /root/.zshrc && \
     chsh -s $(which zsh)
 
 # neovim
-RUN apt install -y ninja-build gettext cmake && \
+RUN apt-get install -y ninja-build gettext cmake && \
     git clone --depth=1 https://github.com/neovim/neovim --branch v0.9.5 && \
     cd neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo && make install && \
     cd .. && rm -rf neovim && \
@@ -29,7 +29,7 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
     /aws/install && rm awscliv2.zip
 
 # docker
-RUN apt install -y docker.io && usermod -aG docker root && newgrp docker
+RUN apt-get install -y docker.io && usermod -aG docker root && newgrp docker
 
 # time zone
 ARG TZ_AREA=Asia
@@ -37,7 +37,7 @@ ARG TZ_ZONE=Bangkok
 RUN echo "tzdata tzdata/Areas select ${TZ_AREA}}" > /tmp/preseed.conf && \
     echo "tzdata tzdata/Zones/Asia select ${TZ_ZONE}}" >> /tmp/preseed.conf && \
     debconf-set-selections /tmp/preseed.cfg && \
-    DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends tzdata && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tzdata && \
     rm /tmp/preseed.conf
 
 # tfswitch
@@ -46,7 +46,7 @@ RUN curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/mast
     tfswitch ${TF_VERSION}
 
 # thefuck
-RUN apt install -y thefuck
+RUN apt-get install -y thefuck
 
 # ENVs
 ENV LANG=en_US.UTF-8 TZ=${TZ_AREA}/${TZ_ZONE}
