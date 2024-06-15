@@ -48,6 +48,9 @@ RUN curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/mast
 # thefuck
 RUN apt-get install -y thefuck
 
+# git config
+RUN git config --global credential.credentialStore cache
+
 # ENVs
 ENV LANG=en_US.UTF-8 TZ=${TZ_AREA}/${TZ_ZONE}
 
