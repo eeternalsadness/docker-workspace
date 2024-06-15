@@ -54,4 +54,6 @@ ENV LANG=en_US.UTF-8 TZ=${TZ_AREA}/${TZ_ZONE}
 # copy dotfiles
 COPY ./dotfiles /root/
 
+WORKDIR /root/
+
 ENTRYPOINT [ "/bin/zsh" ]
