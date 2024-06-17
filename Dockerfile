@@ -50,7 +50,7 @@ RUN apt-get install -y thefuck
 
 # git config
 ENV GIT_USER_NAME="Bach Nguyen" GIT_EMAIL=69bnguyen@gmail.com
-RUN git config --global credential.credentialStore cache && \
+RUN git config --global credential.helper 'cache --timeout 900' && \
     git config --global user.name "${GIT_USER_NAME}" && \
     git config --global user.email ${GIT_EMAIL}
 
