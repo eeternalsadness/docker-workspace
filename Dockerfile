@@ -49,7 +49,13 @@ RUN curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/mast
 RUN apt-get install -y thefuck
 
 # git config
-RUN git config --global credential.credentialStore cache
+ENV GIT_USER_NAME="Bach Nguyen" GIT_EMAIL=69bnguyen@gmail.com
+RUN git config --global credential.credentialStore cache && \
+    git config --global user.name "${GIT_USER_NAME}" && \
+    git config --global user.email ${GIT_EMAIL}
+
+# software package
+RUN apt-get install python3.10-venv npm
 
 # ENVs
 ENV LANG=en_US.UTF-8 TZ=${TZ_AREA}/${TZ_ZONE}
