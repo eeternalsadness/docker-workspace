@@ -49,8 +49,8 @@ RUN curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/mast
 RUN apt-get install -y thefuck
 
 # git config
-ENV GIT_USER_NAME="Bach Nguyen" GIT_EMAIL=69bnguyen@gmail.com
-RUN git config --global credential.helper 'cache --timeout 900' && \
+ENV GIT_USER_NAME="Bach Nguyen" GIT_EMAIL=69bnguyen@gmail.com GIT_CRED_CACHE_TIMEOUT=3600
+RUN git config --global credential.helper 'cache --timeout $GIT_CRED_CACHE_TIMEOUT' && \
     git config --global user.name "${GIT_USER_NAME}" && \
     git config --global user.email ${GIT_EMAIL}
 

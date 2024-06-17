@@ -10,6 +10,7 @@ alias wsinit='docker run -dit \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -e "GIT_USER_NAME=<GIT_USER_NAME>" \
     -e GIT_EMAIL=<GIT_EMAIL> \
+    -e GIT_CRED_CACHE_TIMEOUT=<GIT_CRED_CACHE_TIMEOUT> \
     caudit123/workspace:latest'
 alias wsrun='docker start workspace; docker exec -it workspace zsh'
 alias wstest='docker run -it --rm caudit123/workspace:latest'
