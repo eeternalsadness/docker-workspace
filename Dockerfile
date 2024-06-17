@@ -55,7 +55,7 @@ RUN git config --global credential.credentialStore cache && \
     git config --global user.email ${GIT_EMAIL}
 
 # software package
-RUN apt-get install python3.10-venv npm
+RUN apt-get install -y python3.10-venv npm
 
 # ENVs
 ENV LANG=en_US.UTF-8 TZ=${TZ_AREA}/${TZ_ZONE}
