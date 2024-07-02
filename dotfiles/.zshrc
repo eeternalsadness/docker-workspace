@@ -112,3 +112,7 @@ source $ZSH/oh-my-zsh.sh
 
 # thefuck
 eval $(thefuck --alias)
+
+# git aliases
+alias gco='git checkout $(git branch -a | grep -v "HEAD ->" | tr -d "[\t\ ]" | sed "s/^\*//;s/^remotes\/origin\///" | sort | uniq | fzf)'
+alias gbd='git branch -D $(git branch | grep -v "HEAD ->" | tr -d "[\t\ ]" | sed "s/^\*//" | fzf --multi)'

@@ -3,7 +3,7 @@ ARG UBUNTU_VER="22.04"
 FROM ubuntu:${UBUNTU_VER}
 
 # common tools
-RUN apt-get update && apt-get install -y git zsh ca-certificates unzip curl tmux
+RUN apt-get update && apt-get install -y git zsh ca-certificates unzip curl tmux fzf
 
 # install zsh
 ENV TERM=xterm-256color
