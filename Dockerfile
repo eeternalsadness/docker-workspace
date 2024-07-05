@@ -52,7 +52,8 @@ RUN apt-get install -y thefuck
 ENV GIT_USER_NAME="Bach Nguyen" GIT_EMAIL=69bnguyen@gmail.com GIT_CRED_CACHE_TIMEOUT=3600
 RUN git config --global credential.helper 'cache --timeout $GIT_CRED_CACHE_TIMEOUT' && \
     git config --global user.name "${GIT_USER_NAME}" && \
-    git config --global user.email ${GIT_EMAIL}
+    git config --global user.email "${GIT_EMAIL}" && \
+    git config --global safe.directory '*'
 
 # software package
 RUN apt-get install -y python3-venv npm
