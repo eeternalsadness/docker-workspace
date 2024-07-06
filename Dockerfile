@@ -53,6 +53,7 @@ ENV GIT_USER_NAME="Bach Nguyen" GIT_EMAIL=69bnguyen@gmail.com GIT_CRED_CACHE_TIM
 RUN git config --global credential.helper 'cache --timeout $GIT_CRED_CACHE_TIMEOUT' && \
     git config --global user.name "${GIT_USER_NAME}" && \
     git config --global user.email "${GIT_EMAIL}" && \
+    git config --global push.autoSetupRemote true && \
     git config --global safe.directory '*'
 
 # software package
