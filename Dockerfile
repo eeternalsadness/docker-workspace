@@ -60,7 +60,7 @@ RUN git config --global credential.helper 'cache --timeout $GIT_CRED_CACHE_TIMEO
 RUN apt-get install -y python3-venv npm
 
 # ENVs
-ENV LANG=en_US.UTF-8 TZ=${TZ_AREA}/${TZ_ZONE}
+ENV LANG=en_US.UTF-8 TZ=${TZ_AREA}/${TZ_ZONE} OBSIDIAN=$OBSIDIAN OBSIDIAN_INBOX=$OBSIDIAN_INBOX REPO=$REPO
 
 # copy dotfiles
 COPY ./dotfiles /root/
