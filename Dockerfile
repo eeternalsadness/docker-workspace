@@ -48,12 +48,10 @@ RUN git config --global credential.helper 'cache --timeout $GIT_CRED_CACHE_TIMEO
 # software package
 RUN apt-get install -y python3-venv npm
 
-# copy dotfiles
-RUN git clone --depth=1 https://github.com/eeternalsadness/dotfiles && \
-    rm -rf dotfiles/.git && \
-    mv dotfiles/* $HOME
-
 # set up scripts
-RUN git clone --depth=1 https://github.com/eeternalsadness/scripts
+RUN git clone --depth=1 https://github.com/eeternalsadness/scripts $HOME/scripts
+
+# set up dotfiles
+RUN bash $HOME/scripts/common/apply-dotfiles.sh
 
 ENTRYPOINT [ "/bin/bash" ]
