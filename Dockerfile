@@ -2,26 +2,18 @@ ARG UBUNTU_VER="22.04"
 
 FROM ubuntu:${UBUNTU_VER}
 
-# common tools
-RUN apt-get update && apt-get install -y git zsh ca-certificates unzip curl tmux fzf
+WORKDIR /root/
 
-# install zsh
-ENV TERM=xterm-256color
-RUN touch /root/.zshrc && \
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && \
-    git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions /root/.oh-my-zsh/plugins/zsh-autosuggestions && \
-    git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git /root/.oh-my-zsh/plugins/zsh-syntax-highlighting && \
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /root/.oh-my-zsh/custom/themes/powerlevel10k && \
-    /root/.oh-my-zsh/custom/themes/powerlevel10k/gitstatus/install && \
-    chsh -s $(which zsh)
+# common tools
+RUN apt-get update && apt-get install -y git ca-certificates unzip curl wget tmux fzf
 
 # neovim
 RUN apt-get install -y ninja-build gettext cmake && \
-    git clone --depth=1 https://github.com/neovim/neovim --branch v0.9.5 && \
+    git clone --depth=1 https://github.com/neovim/neovim && \
     cd neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo && make install && \
     cd .. && rm -rf neovim && \
     git clone --depth=1 https://github.com/LazyVim/starter ~/.config/nvim && \
-    rm -rf ~/.config/nvim/.git
+    rm -rf $HOME/.config/nvim/.git
 
 # aws cli
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
@@ -45,9 +37,6 @@ ARG TF_VERSION=1.8.1
 RUN curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/master/install.sh | bash && \
     tfswitch ${TF_VERSION}
 
-# thefuck
-RUN apt-get install -y thefuck
-
 # git config
 ENV GIT_USER_NAME="Bach Nguyen" GIT_EMAIL=69bnguyen@gmail.com GIT_CRED_CACHE_TIMEOUT=3600
 RUN git config --global credential.helper 'cache --timeout $GIT_CRED_CACHE_TIMEOUT' && \
@@ -59,12 +48,12 @@ RUN git config --global credential.helper 'cache --timeout $GIT_CRED_CACHE_TIMEO
 # software package
 RUN apt-get install -y python3-venv npm
 
-# ENVs
-ENV LANG=en_US.UTF-8 TZ=${TZ_AREA}/${TZ_ZONE} OBSIDIAN=$OBSIDIAN OBSIDIAN_INBOX=$OBSIDIAN_INBOX REPO=$REPO
-
 # copy dotfiles
-COPY ./dotfiles /root/
+RUN git clone --depth=1 https://github.com/eeternalsadness/dotfiles && \
+    rm -rf dotfiles/.git && \
+    mv dotfiles/* $HOME
 
-WORKDIR /root/
+# set up scripts
+RUN git clone --depth=1 https://github.com/eeternalsadness/scripts
 
-ENTRYPOINT [ "/bin/zsh" ]
+ENTRYPOINT [ "/bin/bash" ]
