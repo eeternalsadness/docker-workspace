@@ -46,12 +46,14 @@ RUN git config --global credential.helper 'cache --timeout $GIT_CRED_CACHE_TIMEO
     git config --global safe.directory '*'
 
 # software package
-RUN apt-get install -y python3-venv npm
+RUN apt-get install -y python3-venv npm luarocks
 
 # set up scripts
 RUN git clone --depth=1 https://github.com/eeternalsadness/scripts $HOME/scripts
 
 # set up dotfiles
-RUN bash $HOME/scripts/common/apply-dotfiles.sh
+ENV DOTFILES_DIR="$HOME/.dotfiles"
+RUN git clone --depth=1 https://github.com/eeternalsadness/dotfiles.git $DOTFILES_DIR && \
+    bash $DOTFILES_DIR/scripts/init-dotfiles.sh
 
 ENTRYPOINT [ "/bin/bash" ]
