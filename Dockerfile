@@ -13,7 +13,7 @@ RUN apt-get install -y ninja-build gettext cmake && \
     cd neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo && make install && \
     cd .. && rm -rf neovim && \
     git clone --depth=1 https://github.com/LazyVim/starter ~/.config/nvim && \
-    rm -rf $HOME/.config/nvim/.git
+    rm -rf /root/.config/nvim/.git
 
 # aws cli
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
@@ -49,10 +49,10 @@ RUN git config --global credential.helper 'cache --timeout $GIT_CRED_CACHE_TIMEO
 RUN apt-get install -y python3-venv npm luarocks
 
 # set up scripts
-RUN git clone --depth=1 https://github.com/eeternalsadness/scripts $HOME/scripts
+RUN git clone --depth=1 https://github.com/eeternalsadness/scripts /root/scripts
 
 # set up dotfiles
-ENV DOTFILES_DIR="$HOME/.dotfiles"
+ENV DOTFILES_DIR="/root/.dotfiles"
 RUN git clone --depth=1 https://github.com/eeternalsadness/dotfiles.git $DOTFILES_DIR && \
     bash $DOTFILES_DIR/scripts/init-dotfiles.sh
 
