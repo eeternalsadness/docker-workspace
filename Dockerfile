@@ -46,7 +46,7 @@ RUN git config --global credential.helper 'cache --timeout $GIT_CRED_CACHE_TIMEO
     git config --global safe.directory '*'
 
 # software package
-#RUN apt-get update && apt-get install -y python3-venv npm luarocks
+RUN apt-get update && apt-get install -y python3-venv npm luarocks
 
 # set up scripts
 RUN git clone --depth=1 https://github.com/eeternalsadness/scripts /root/scripts
